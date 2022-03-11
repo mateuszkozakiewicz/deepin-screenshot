@@ -321,6 +321,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
             }
         } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
             if (keyEvent->key() == Qt::Key_S) {
+                ConfigSettings::instance()->setValue("save", "save_op", SaveAction::SaveToAutoClipboard);
                 expressSaveScreenshot();
             }
 
@@ -1340,7 +1341,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
     }
     case SaveToAutoClipboard: {
         copyToClipboard = true;
-        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        QString defaultSaveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
