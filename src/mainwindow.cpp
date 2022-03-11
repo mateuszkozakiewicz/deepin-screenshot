@@ -658,7 +658,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
             if (!m_isFirstDrag) {
                 m_isFirstDrag = true;
 
-                m_selectAreaName = tr("select-area");
+                m_selectAreaName = tr("");
             }
         }
     }
@@ -1005,11 +1005,11 @@ void MainWindow::saveSpecificedPath(QString path)
 
         QDateTime currentDate;
         QString currentTime =  currentDate.currentDateTime().
-                toString("yyyyMMddHHmmss");
+                toString("yyyy-MM-dd-HH:mm:ss");
         if (m_selectAreaName.isEmpty()) {
-            savePath = path + QString("%1_%2.png").arg(tr("DeepinScreenshot")).arg(currentTime);
+            savePath = path + QString("%1-%2.png").arg(tr("Screenshot")).arg(currentTime);
         } else {
-            savePath = path + QString("%1_%2_%3.png").arg(tr("DeepinScreenshot")).arg(
+            savePath = path + QString("%1-%3.png").arg(tr("Screenshot")).arg(
                                                                                        m_selectAreaName).arg(currentTime);
         }
         qDebug() << "process savepath2: " << savePath;
@@ -1255,11 +1255,11 @@ bool MainWindow::saveAction(const QPixmap &pix)
     QPixmap screenShotPix = pix;
     QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
-            toString("yyyyMMddHHmmss");
+            toString("yyyy-MM-dd-HH:mm:ss");
     m_saveFileName = "";
 
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
-    bool copyToClipboard = false;
+    bool copyToClipboard = true;
 
     std::pair<bool, SaveAction> temporarySaveAction = ConfigSettings::instance()->getTemporarySaveAction();
     if (temporarySaveAction.first) {
@@ -1284,11 +1284,11 @@ bool MainWindow::saveAction(const QPixmap &pix)
             m_saveIndex = SaveToSpecificDir;
         } else {
             if (m_selectAreaName.isEmpty()) {
-                m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
-                                                                                     "DeepinScreenshot")).arg(currentTime);
+                m_saveFileName = QString("%1/%2-%3.png").arg(defaultSaveDir).arg(tr(
+                                                                                     "Screenshot")).arg(currentTime);
             } else {
-                m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
-                                                                                        "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                m_saveFileName = QString("%1/%2-%4.png").arg(defaultSaveDir).arg(tr(
+                                                                                        "Screenshot")).arg(m_selectAreaName).arg(currentTime);
             }
         }
         break;
@@ -1305,10 +1305,10 @@ bool MainWindow::saveAction(const QPixmap &pix)
         }
 
         if (fileName.isEmpty()) {
-            fileName = QString("%1_%2").arg(tr("DeepinScreenshot")).arg(currentTime);
+            fileName = QString("%1-%2").arg(tr("Screenshot")).arg(currentTime);
         }
         else {
-            fileName = QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+            fileName = QString("%1-%3").arg(tr("Screenshot")).arg(m_selectAreaName).arg(currentTime);
         }
 
         QString lastFileName = QString("%1/%2.png").arg(path).arg(fileName);
@@ -1347,11 +1347,11 @@ bool MainWindow::saveAction(const QPixmap &pix)
             m_saveIndex = SaveToSpecificDir;
         } else  {
             if (m_selectAreaName.isEmpty()) {
-                m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
-                                                                                     "DeepinScreenshot")).arg(currentTime);
+                m_saveFileName = QString("%1/%2-%3.png").arg(defaultSaveDir).arg(tr(
+                                                                                     "Screenshot")).arg(currentTime);
             } else {
-                m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
-                                                                                        "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                m_saveFileName = QString("%1/%2-%4.png").arg(defaultSaveDir).arg(tr(
+                                                                                        "Screenshot")).arg(m_selectAreaName).arg(currentTime);
             }
         }
         break;
@@ -1391,9 +1391,9 @@ bool MainWindow::saveAction(const QPixmap &pix)
             }
         }
         if (m_selectAreaName.isEmpty()) {
-            m_saveFileName = QString("%1/%2_%3.png").arg(savePath, tr("DeepinScreenshot"), currentTime);
+            m_saveFileName = QString("%1/%2-%3.png").arg(savePath, tr("Screenshot"), currentTime);
         } else {
-            m_saveFileName = QString("%1/%2_%3_%4.png").arg(savePath, tr("DeepinScreenshot"), m_selectAreaName, currentTime);
+            m_saveFileName = QString("%1/%2-%4.png").arg(savePath, tr("Screenshot"), m_selectAreaName, currentTime);
         }
         if (!screenShotPix.save(m_saveFileName,  "PNG"))
             return false;

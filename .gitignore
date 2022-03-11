@@ -27,3 +27,10 @@ include*/
 *.autosave
 .vscode
 *.user
+
+CMakeFiles
+deepin-screenshot_autogen
+cmake_install.cmake
+CMakeCache.txt
+deepin-screenshot
+Makefile
